@@ -27,7 +27,7 @@ public class ReportCard {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private Double ranking; // rang du trimestre
+    private Integer ranking; // rang du trimestre
     private Double average; // moyenne du trimestre
     private Double average1; // moyenne au premier cc du trimestre
     private Double average2; //moyenne au dernier cc du trimestre

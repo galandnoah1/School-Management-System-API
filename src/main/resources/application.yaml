@@ -3,9 +3,9 @@ spring:
     name: school-management-system
 
   datasource:
-    url: jdbc:mysql://localhost:3306/school?useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/school
     username: root
-    password: root
+    password: ndz000
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

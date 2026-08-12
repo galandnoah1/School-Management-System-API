@@ -3,11 +3,15 @@ package com.truhoster.school_management_system.subject.dto;
 import com.truhoster.school_management_system.classroom.enums.Section;
 import com.truhoster.school_management_system.subject.enums.SubjectGroup;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SubjectRequest {
     @NotNull(message = "Le nom de la matiere est obligatoire")
     private String name;

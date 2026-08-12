@@ -30,6 +30,8 @@ public class ClassroomMapper {
             return null;
         }
         return ClassroomResponse.builder()
+                .id(classroom.getId())
+                .section(classroom.getSection().name())
                 .name(classroom.getName())
                 .size(classroom.getStudentList() != null ? classroom.getStudentList().size() : 0)
                 .build();

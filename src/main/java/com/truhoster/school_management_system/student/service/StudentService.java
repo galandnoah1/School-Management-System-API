@@ -27,6 +27,7 @@ public class StudentService {
      * @param request les données de l'étudiant à créer
      * @return le DTO de l'étudiant créé, avec son matricule généré
      */
+
     public StudentResponse create(StudentRequest request) {
         Student student = studentMapper.toEntity(request);
         student.setMatricule(generateMatricule());

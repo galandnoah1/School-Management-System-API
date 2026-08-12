@@ -1,5 +1,6 @@
 package com.truhoster.school_management_system.teacher.controller;
 
+import com.truhoster.school_management_system.teacher.dto.AffectationRequest;
 import com.truhoster.school_management_system.teacher.dto.TeacherRequest;
 import com.truhoster.school_management_system.teacher.dto.TeacherResponse;
 import com.truhoster.school_management_system.teacher.service.TeacherService;
@@ -50,7 +51,7 @@ public class TeacherController {
     @Operation(summary = "Mettre à jour un professeur", description = "Met à jour les informations d'un professeur et peut ajouter une nouvelle affectation.")
     @PutMapping("/{id}")
     public ResponseEntity<TeacherResponse> update( @PathVariable Integer id,
-            @Valid @RequestBody TeacherRequest request) {
+            @Valid @RequestBody AffectationRequest request) {
         log.info("PUT /teachers/{} - mise à jour avec la requête: {}", id, request);
         TeacherResponse response = teacherService.update(id, request);
         log.info("Professeur {} mis à jour avec succès", id);

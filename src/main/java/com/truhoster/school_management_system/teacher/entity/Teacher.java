@@ -23,6 +23,8 @@ public class Teacher {
     private Integer id;
     private String name;
     private String phone;
+
+    @Enumerated(EnumType.STRING)
     private Sex sex;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)

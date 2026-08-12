@@ -23,6 +23,10 @@ public class ClassroomService {
     @Transactional
     public ClassroomResponse create(ClassroomRequest request) {
         Classroom classroom = classroomMapper.toEntity(request);
+        if (classroomRepository.existsByNameIgnoreCase(generateName(request)))
+        {
+            throw new RuntimeException("Classroom with this name already exist");
+        }
         classroom.setName(generateName(request));
         Classroom saved = classroomRepository.save(classroom);
         return classroomMapper.toDTO(saved);
@@ -45,20 +49,24 @@ public class ClassroomService {
     }
 
 
+    @Transactional
     public ClassroomResponse getById(Integer id) {
         Classroom classroom = classroomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Classroom not found with id: " + id));
         return classroomMapper.toDTO(classroom);
     }
 
+    @Transactional
     public List<ClassroomResponse> getAll() {
         return classroomMapper.toDTOList(classroomRepository.findAll());
     }
 
+    @Transactional
     public List<ClassroomResponse> getBySection(Section section) {
         return classroomMapper.toDTOList(classroomRepository.findBySection(section));
     }
 
+    @Transactional
     public void delete(Integer id) {
         if (!classroomRepository.existsById(id)) {
             throw new EntityNotFoundException("Classroom not found with id: " + id);

@@ -147,4 +147,19 @@ public class SubjectController {
         log.info("Coefficient de l'association {} mis à jour avec succès", id);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * Récupère toutes les matières enseignées dans une classe donnée.
+     *
+     * @param classroomId l'identifiant de la classe
+     * @return la liste des DTOs des matières de cette classe
+     */
+    @Operation(summary = "Lister les matières d'une classe")
+    @GetMapping("/classroom/{classroomId}")
+    public ResponseEntity<List<SubjectResponse>> getByClassroom( @PathVariable Integer classroomId) {
+        log.info("GET /subjects/classroom/{}", classroomId);
+        List<SubjectResponse> responses = subjectService.getByClassroom(classroomId);
+        log.info("{} matière(s) trouvée(s) pour la classe {}", responses.size(), classroomId);
+        return ResponseEntity.ok(responses);
+    }
 }

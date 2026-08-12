@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -151,5 +152,21 @@ public class SubjectService {
         existing.setCoefficient(coefficient);
         SubjectByClassroom saved = subjectByClassroomRepository.save(existing);
         return subjectByClassroomMapper.toDTO(saved);
+    }
+
+    /**
+     * Récupère toutes les matières enseignées dans une classe donnée,
+     * en passant par les associations SubjectByClassroom liées à cette classe.
+     *
+     * @param classroomId l'identifiant de la classe
+     * @return la liste des DTOs des matières de cette classe
+     */
+    @Transactional()
+    public List<SubjectResponse> getByClassroom(Integer classroomId) {
+        List<Subject> subjects = subjectByClassroomRepository.findByClassroomId(classroomId).stream()
+                .map(SubjectByClassroom::getSubject)
+                .distinct()
+                .collect(Collectors.toList());
+        return subjectMapper.toDTOList(subjects);
     }
 }

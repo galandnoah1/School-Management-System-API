@@ -72,6 +72,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleGeneric(Exception ex) {
         log.error("Erreur interne inattendue", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", "Une erreur interne est survenue"));
+                .body(Map.of("error", ex.getMessage()));
     }
 }

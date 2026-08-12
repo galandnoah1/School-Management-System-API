@@ -1,7 +1,6 @@
 package com.truhoster.school_management_system.subject.entity;
 
 import com.truhoster.school_management_system.classroom.entity.Classroom;
-import com.truhoster.school_management_system.classroom.enums.Section;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

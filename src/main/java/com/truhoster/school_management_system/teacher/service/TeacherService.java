@@ -4,6 +4,7 @@ import com.truhoster.school_management_system.classroom.entity.Classroom;
 import com.truhoster.school_management_system.classroom.repository.ClassroomRepository;
 import com.truhoster.school_management_system.subject.entity.Subject;
 import com.truhoster.school_management_system.subject.repository.SubjectRepository;
+import com.truhoster.school_management_system.teacher.dto.AffectationRequest;
 import com.truhoster.school_management_system.teacher.dto.TeacherRequest;
 import com.truhoster.school_management_system.teacher.dto.TeacherResponse;
 import com.truhoster.school_management_system.teacher.entity.Affectation;
@@ -62,14 +63,10 @@ public class TeacherService {
      * @throws IllegalStateException si l'affectation (teacher/classroom/subject) existe déjà
      */
     @Transactional
-    public TeacherResponse update(Integer id, TeacherRequest request) {
+    public TeacherResponse update(Integer id, AffectationRequest request) {
         Teacher existing = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found with id: " + id));
 
-        existing.setName(request.getName());
-        existing.setPhone(request.getPhone());
-        existing.setSex(request.getSex());
-        teacherRepository.save(existing);
 
         createAffectation(existing, request.getClassroomId(), request.getSubjectId());
 
@@ -146,6 +143,7 @@ public class TeacherService {
      * @throws EntityNotFoundException si la classe ou la matière n'existe pas
      * @throws IllegalStateException si l'affectation existe déjà pour ce trio teacher/classroom/subject
      */
+    @Transactional
     private void createAffectation(Teacher teacher, Integer classroomId, Integer subjectId) {
         if (classroomId == null || subjectId == null) {
             return;

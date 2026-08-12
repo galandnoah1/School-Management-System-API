@@ -25,11 +25,15 @@ public class Subject {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+
+    @Enumerated(EnumType.STRING)
     private Section section;
+
+    @Enumerated(EnumType.STRING)
     private SubjectGroup subjectGroup;
 
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<SubjectByClassroom> subjectByClassrooms;
 
     @CreationTimestamp

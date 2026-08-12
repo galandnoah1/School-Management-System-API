@@ -8,4 +8,5 @@ import lombok.Data;
 public class AffectationResponse {
     private Integer id;
     private String classroom;
+    private String subject;
 }

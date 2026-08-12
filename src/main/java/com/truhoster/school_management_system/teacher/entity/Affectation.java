@@ -14,7 +14,13 @@ import java.sql.Timestamp;
 
 @Builder
 @Entity
-@Table(name = "affectations")
+@Table(
+        name = "affectations",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_teacher_classroom_subject",
+                columnNames = {"teacher_id", "classroom_id", "subject_id"}
+        )
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

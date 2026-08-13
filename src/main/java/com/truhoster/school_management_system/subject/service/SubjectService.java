@@ -162,11 +162,8 @@ public class SubjectService {
      * @return la liste des DTOs des matières de cette classe
      */
     @Transactional()
-    public List<SubjectResponse> getByClassroom(Integer classroomId) {
-        List<Subject> subjects = subjectByClassroomRepository.findByClassroomId(classroomId).stream()
-                .map(SubjectByClassroom::getSubject)
-                .distinct()
-                .collect(Collectors.toList());
-        return subjectMapper.toDTOList(subjects);
+    public List<SubjectByClassroomResponse> getByClassroom(Integer classroomId) {
+        List<SubjectByClassroom> subjects = subjectByClassroomRepository.findByClassroomId(classroomId);
+        return subjectByClassroomMapper.toDTOList(subjects);
     }
 }

@@ -24,7 +24,7 @@ spring:
     time-zone: UTC
 
 server:
-  port: 8080
+  port: 8084
   error:
     include-message: always
     include-binding-errors: always

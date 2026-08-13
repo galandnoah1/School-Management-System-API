@@ -44,7 +44,7 @@ public class SubjectByClassroomMapper {
                         "Subject not found with id: " + request.getSubjectId()));
 
         return SubjectByClassroom.builder()
-                .coefficient(request.getCoefficient())
+                .coefficient(request.getValue())
                 .classroom(classroom)
                 .subject(subject)
                 .build();
@@ -63,6 +63,7 @@ public class SubjectByClassroomMapper {
         }
 
         return SubjectByClassroomResponse.builder()
+                .name(subjectByClassroom.getSubject().getName())
                 .coefficient(subjectByClassroom.getCoefficient())
                 .classroom(subjectByClassroom.getClassroom() != null
                         ? subjectByClassroom.getClassroom().getName()

@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class SubjectByClassroomResponse {
+    private String name;
     private int coefficient;
     private String classroom;
 }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SubjectByClassroomRequest {
     @NotNull(message = "Veuillez definir le coefficient")
-    private Integer coefficient;
+    private Integer value;
 
     @NotNull(message = "Veullez selectionner la salle de classe")
     private Integer classroomId;

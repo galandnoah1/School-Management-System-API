@@ -156,9 +156,9 @@ public class SubjectController {
      */
     @Operation(summary = "Lister les matières d'une classe")
     @GetMapping("/classroom/{classroomId}")
-    public ResponseEntity<List<SubjectResponse>> getByClassroom( @PathVariable Integer classroomId) {
+    public ResponseEntity<List<SubjectByClassroomResponse>> getByClassroom( @PathVariable Integer classroomId) {
         log.info("GET /subjects/classroom/{}", classroomId);
-        List<SubjectResponse> responses = subjectService.getByClassroom(classroomId);
+        List<SubjectByClassroomResponse> responses = subjectService.getByClassroom(classroomId);
         log.info("{} matière(s) trouvée(s) pour la classe {}", responses.size(), classroomId);
         return ResponseEntity.ok(responses);
     }

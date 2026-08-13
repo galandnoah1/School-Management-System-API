@@ -5,6 +5,7 @@ import com.truhoster.school_management_system.classroom.repository.ClassroomRepo
 import com.truhoster.school_management_system.subject.entity.Subject;
 import com.truhoster.school_management_system.subject.repository.SubjectRepository;
 import com.truhoster.school_management_system.teacher.dto.AffectationRequest;
+import com.truhoster.school_management_system.teacher.dto.AffectationResponse;
 import com.truhoster.school_management_system.teacher.dto.TeacherRequest;
 import com.truhoster.school_management_system.teacher.dto.TeacherResponse;
 import com.truhoster.school_management_system.teacher.entity.Affectation;
@@ -30,6 +31,7 @@ public class TeacherService {
     private final AffectationRepository affectationRepository;
     private final ClassroomRepository classroomRepository;
     private final SubjectRepository subjectRepository;
+    private final AffectationMapper affectationMapper;
 
     /**
      * Crée un nouveau professeur ainsi que sa première affectation
@@ -167,5 +169,27 @@ public class TeacherService {
                 .subject(subject)
                 .build();
         affectationRepository.save(affectation);
+    }
+
+    /**
+     * Affecter un enseignant dans une autre classe
+     * Ajouter une matière à un enseignant dans la classe dans laquelle il enseigne deja une matière
+     *
+     * @param request les donnees de la nouvelle affectation
+     * @return le DTO de l'affectation
+     * @throws RuntimeException si l'enseignant ou l'affectation n'existe
+     * */
+    @Transactional
+    public AffectationResponse affectation(AffectationRequest request)
+    {
+        Teacher teacher = teacherRepository.findById(request.getTeacherId())
+                .orElseThrow(()-> new RuntimeException("Teacher not found"));
+
+        createAffectation(teacher, request.getClassroomId(), request.getSubjectId());
+
+        Affectation affectation = affectationRepository.findByClassroomIdAndSubjectId(request.getClassroomId(), request.getSubjectId())
+                .orElseThrow(()-> new RuntimeException("Affectation not found"));
+
+        return affectationMapper.toDTO(affectation);
     }
 }

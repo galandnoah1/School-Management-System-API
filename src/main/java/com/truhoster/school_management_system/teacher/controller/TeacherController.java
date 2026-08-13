@@ -1,6 +1,7 @@
 package com.truhoster.school_management_system.teacher.controller;
 
 import com.truhoster.school_management_system.teacher.dto.AffectationRequest;
+import com.truhoster.school_management_system.teacher.dto.AffectationResponse;
 import com.truhoster.school_management_system.teacher.dto.TeacherRequest;
 import com.truhoster.school_management_system.teacher.dto.TeacherResponse;
 import com.truhoster.school_management_system.teacher.service.TeacherService;
@@ -114,5 +115,20 @@ public class TeacherController {
         teacherService.delete(id);
         log.info("Professeur {} supprimé avec succès", id);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Affecte un à un enseignant une nouvelle classe et/ou une nouvelle matière
+     * @param request les données de l'affectation à créer
+     * @return le DTO de l'affectation créée avec statut 201
+     * */
+    @Operation(summary = "Créer une affectation", description = "Affecte un à un enseignant une nouvelle classe et/ou une nouvelle matière")
+    @PostMapping("/affectations")
+    public ResponseEntity<AffectationResponse> createAffectation(@Valid @RequestBody AffectationRequest request)
+    {
+        log.info("POST /teachers/affectations - creation d'une affectation avec la requête: {}", request);
+        AffectationResponse response = teacherService.affectation(request);
+        log.info("Affectation créée avec succès ");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

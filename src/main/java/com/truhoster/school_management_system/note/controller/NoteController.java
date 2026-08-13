@@ -55,9 +55,8 @@ public class NoteController {
      */
     @Operation(summary = "Modifier une note", description = "Modifie une note et répercute le changement sur la NoteLine associée.")
     @PutMapping("/{id}")
-    public ResponseEntity<NoteResponse> update(
-            @Parameter(description = "Identifiant de la note") @PathVariable Integer id,
-            @Valid @RequestBody NoteRequest request) {
+    public ResponseEntity<NoteResponse> update( @PathVariable Integer id,
+            @RequestBody NoteRequest request) {
         log.info("PUT /notes/{} - mise à jour avec la requête: {}", id, request);
         NoteResponse response = noteService.update(id, request);
         log.info("Note {} mise à jour avec succès", id);

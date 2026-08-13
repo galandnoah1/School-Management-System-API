@@ -60,6 +60,10 @@ public class NoteService {
     @Transactional
     public NoteResponse create(NoteRequest request) {
         Note note = noteMapper.toEntity(request);
+        if (noteRepository.existsByStudentIdAndSubjectIdAndEvaluation(request.getStudentId(), request.getSubjectId(), request.getEvaluation()))
+        {
+            throw new RuntimeException("Vous avez deja saisi la note de cet élève en cette matière pour cette evaluation");
+        }
         Note savedNote = noteRepository.save(note);
 
         applyNoteToReportCard(savedNote);
@@ -94,7 +98,7 @@ public class NoteService {
             clearNoteFromLine(oldStudent, oldClassroom, oldSubject, oldEvaluation);
         }
 
-        Student student = studentRepository.findById(request.getStudentId())
+        Student student = studentRepository.findById(oldStudent.getId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Student not found with id: " + request.getStudentId()));
         Subject subject = subjectRepository.findById(request.getSubjectId())

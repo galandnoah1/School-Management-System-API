@@ -1,6 +1,7 @@
 package com.truhoster.school_management_system.student.entity;
 
 import com.truhoster.school_management_system.classroom.entity.Classroom;
+import com.truhoster.school_management_system.payment.entity.Payment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Builder
 @Entity
@@ -28,6 +30,9 @@ public class Student {
     @ManyToOne()
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Payment> payments;
 
     @CreationTimestamp
     @Column(updatable = false)

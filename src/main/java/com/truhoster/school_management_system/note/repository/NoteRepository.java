@@ -12,4 +12,6 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
      */
     List<Note> findByClassroomIdAndSubjectIdAndEvaluation(
             Integer classroomId, Integer subjectId, Evaluation evaluation);
+
+    Boolean existsByStudentIdAndSubjectIdAndEvaluation(Integer studentId, Integer subjectId, Evaluation evaluation);
 }

@@ -2,6 +2,7 @@ package com.truhoster.school_management_system.schoolfee.mapper;
 
 import com.truhoster.school_management_system.classroom.entity.Classroom;
 import com.truhoster.school_management_system.classroom.repository.ClassroomRepository;
+import com.truhoster.school_management_system.schoolfee.dto.ClassroomSummaryResponse;
 import com.truhoster.school_management_system.schoolfee.dto.SchoolFeeRequest;
 import com.truhoster.school_management_system.schoolfee.dto.SchoolFeeResponse;
 import com.truhoster.school_management_system.schoolfee.entity.SchoolFee;
@@ -62,8 +63,13 @@ public class SchoolFeeMapper {
             return null;
         }
 
-        List<String> classroomNames = schoolFee.getClassrooms() != null
-                ? schoolFee.getClassrooms().stream().map(Classroom::getName).collect(Collectors.toList())
+        List<ClassroomSummaryResponse> classroomSummaries = schoolFee.getClassrooms() != null
+                ? schoolFee.getClassrooms().stream()
+                  .map(c -> ClassroomSummaryResponse.builder()
+                            .id(c.getId())
+                            .name(c.getName())
+                            .build())
+                  .collect(Collectors.toList())
                 : Collections.emptyList();
 
         return SchoolFeeResponse.builder()
@@ -74,7 +80,7 @@ public class SchoolFeeMapper {
                 .tranche1Deadline(schoolFee.getTranche1Deadline())
                 .tranche2Amount(schoolFee.getTranche2Amount())
                 .tranche2Deadline(schoolFee.getTranche2Deadline())
-                .classrooms(classroomNames)
+                .classrooms(classroomSummaries)
                 .build();
     }
 

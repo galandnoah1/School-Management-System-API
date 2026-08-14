@@ -6,10 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.security.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -47,10 +49,10 @@ public class SchoolFee {
     )
     private List<Classroom> classrooms;
 
-    @CreationTimestamp
+    @CreationTimestamp(source = SourceType.VM)
     @Column(updatable = false)
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    private Timestamp updatedAt;
+    @UpdateTimestamp(source = SourceType.VM)
+    private LocalDateTime updatedAt;
 }

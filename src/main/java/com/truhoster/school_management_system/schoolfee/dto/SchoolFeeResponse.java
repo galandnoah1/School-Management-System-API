@@ -20,5 +20,5 @@ public class SchoolFeeResponse {
     private LocalDate tranche1Deadline;
     private Double tranche2Amount;
     private LocalDate tranche2Deadline;
-    private List<String> classrooms;
+    private List<ClassroomSummaryResponse> classrooms;
 }

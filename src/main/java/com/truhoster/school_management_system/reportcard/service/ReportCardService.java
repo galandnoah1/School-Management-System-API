@@ -3,6 +3,7 @@ package com.truhoster.school_management_system.reportcard.service;
 import com.truhoster.school_management_system.note.entity.NoteLine;
 import com.truhoster.school_management_system.note.enums.Trimester;
 import com.truhoster.school_management_system.note.repository.NoteLineRepository;
+import com.truhoster.school_management_system.printhistory.service.PrintHistoryService;
 import com.truhoster.school_management_system.reportcard.dto.ReportCardResponse;
 import com.truhoster.school_management_system.reportcard.entity.ReportCard;
 import com.truhoster.school_management_system.reportcard.mapper.ReportCardMapper;
@@ -23,6 +24,7 @@ public class ReportCardService {
     private final ReportCardRepository reportCardRepository;
     private final NoteLineRepository noteLineRepository;
     private final ReportCardMapper reportCardMapper;
+    private final PrintHistoryService printHistoryService;
 
     /**
      * Génère les bulletins de toute une classe pour un trimestre donné.
@@ -79,6 +81,9 @@ public class ReportCardService {
         }
 
         List<ReportCard> saved = reportCardRepository.saveAll(ranked);
+
+        printHistoryService.logGeneration(saved.get(0).getClassroom(), trimester, saved.size());
+
         return reportCardMapper.toDTOList(saved);
     }
 

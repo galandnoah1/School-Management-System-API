@@ -2,6 +2,7 @@ package com.truhoster.school_management_system.student.controller;
 
 import com.truhoster.school_management_system.student.dto.StudentRequest;
 import com.truhoster.school_management_system.student.dto.StudentResponse;
+import com.truhoster.school_management_system.student.dto.UpdateStudent;
 import com.truhoster.school_management_system.student.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,7 +13,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -26,15 +38,16 @@ public class StudentController {
 
     /**
      * Crée un nouvel étudiant.
-     * Le matricule est généré automatiquement côté service.
-     *
      * @param request les données de l'étudiant à créer
      * @return le DTO de l'étudiant créé, avec statut 201
      */
     @Operation(summary = "Créer un étudiant", description = "Crée un nouvel étudiant et génère automatiquement son matricule.")
     @PostMapping
-    public ResponseEntity<StudentResponse> create(@Valid @RequestBody StudentRequest request) {
+    public ResponseEntity<StudentResponse> create(@Valid @RequestBody StudentRequest request, MultipartFile file) throws IOException {
         log.info("POST /students - création d'un étudiant avec la requête: {}", request);
+
+
+
         StudentResponse response = studentService.create(request);
         log.info("Étudiant créé avec succès: {} {} (matricule: {})",
                 response.getFirstname(), response.getLastname(), response.getMatricule());
@@ -46,17 +59,24 @@ public class StudentController {
      * Le matricule reste inchangé.
      *
      * @param id l'identifiant de l'étudiant à mettre à jour
-     * @param request les nouvelles données
+     * @param update les nouvelles données
      * @return le DTO de l'étudiant mis à jour
      */
+
     @Operation(summary = "Mettre à jour un étudiant", description = "Met à jour les informations d'un étudiant existant.")
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<StudentResponse> update(
-            @Parameter(description = "Identifiant de l'étudiant") @PathVariable Integer id,
-            @Valid @RequestBody StudentRequest request) {
-        log.info("PUT /students/{} - mise à jour avec la requête: {}", id, request);
-        StudentResponse response = studentService.update(id, request);
+            @PathVariable Integer id,
+            @RequestBody UpdateStudent update) throws IOException {
+        log.info("PUT /students/{} - modification des informations de l'élève: {}", id, update);
+
+
+        StudentResponse response = studentService.update(id, update);
+
+
         log.info("Étudiant {} mis à jour avec succès", id);
+
+
         return ResponseEntity.ok(response);
     }
 
@@ -69,7 +89,7 @@ public class StudentController {
     @Operation(summary = "Récupérer un étudiant par son id")
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponse> getById(
-            @Parameter(description = "Identifiant de l'étudiant") @PathVariable Integer id) {
+            @PathVariable Integer id) {
         log.info("GET /students/{}", id);
         StudentResponse response = studentService.getById(id);
         return ResponseEntity.ok(response);
@@ -98,7 +118,7 @@ public class StudentController {
     @Operation(summary = "Lister les étudiants par classe")
     @GetMapping("/classroom/{classroomId}")
     public ResponseEntity<List<StudentResponse>> getByClassroom(
-            @Parameter(description = "Identifiant de la classe") @PathVariable Integer classroomId) {
+            @PathVariable Integer classroomId) {
         log.info("GET /students/classroom/{}", classroomId);
         List<StudentResponse> responses = studentService.getByClassroom(classroomId);
         log.info("{} étudiant(s) trouvé(s) pour la classe {}", responses.size(), classroomId);
@@ -114,10 +134,21 @@ public class StudentController {
     @Operation(summary = "Supprimer un étudiant")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(
-            @Parameter(description = "Identifiant de l'étudiant") @PathVariable Integer id) {
+             @PathVariable Integer id) {
         log.info("DELETE /students/{}", id);
         studentService.delete(id);
         log.info("Étudiant {} supprimé avec succès", id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(value = "/{id}/pictures", consumes = "multipart/form-data")
+    public ResponseEntity<StudentResponse> addProfilePicture(@PathVariable Integer id ,@RequestParam("image") MultipartFile file)
+    {
+        log.info("PATCH /api/v1/students/{id}/pictures - ajoute ou change la photo de profil d'un élève");
+
+        StudentResponse studentResponse = studentService.addStudentProfilePicture(id, file);
+
+        return ResponseEntity
+                .ok(studentResponse);
     }
 }

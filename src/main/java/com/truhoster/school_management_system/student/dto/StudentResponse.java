@@ -11,4 +11,5 @@ public class StudentResponse {
     private String lastname;
     private String  matricule;
     private String classroom;
+    private String photoUrlLink;
 }

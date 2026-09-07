@@ -25,6 +25,7 @@ public class Student {
     private String firstname;
     private String lastname;
     private String  matricule;
+    private String photoUrlLink;
     private boolean isRepeating;
 
     @ManyToOne()

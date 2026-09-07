@@ -60,8 +60,9 @@ public class StudentMapper {
                 .id(student.getId())
                 .firstname(student.getFirstname())
                 .lastname(student.getLastname())
-                .matricule(student.getMatricule())
+                .matricule(student.getMatricule() != null ? student.getMatricule() : null)
                 .classroom(student.getClassroom() != null ? student.getClassroom().getName() : null)
+                .photoUrlLink(student.getPhotoUrlLink() != null ? student.getPhotoUrlLink() : null)
                 .build();
     }
 

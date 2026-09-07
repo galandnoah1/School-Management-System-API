@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentRequest {
+
+    @NotNull(message = "Le matricule est obligatoire")
+    private String matricule;
+
     @NotNull(message = "Le prenom est obligatoire")
     private String firstname;
 

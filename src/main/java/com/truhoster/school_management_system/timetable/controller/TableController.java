@@ -65,4 +65,35 @@ public class TableController {
                         tableService.findAllTable()
                 );
     }
+
+    /**
+     * GET /api/v1/timetables/teachers/{id}
+     * */
+    @GetMapping("/teachers/{id}")
+    public ResponseEntity<List<LineDTO>> getLinesByTeacher(Integer id)
+    {
+        log.info("GET /api/v1/timetables/teachers/{id}  - Retourne le programme d'enseignement d'un enseignant");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                        tableService.findLineByTeacher(id)
+                );
+    }
+
+
+    /**
+     * GET /api/v1/timetables/classrooms/{id}
+     * */
+    @GetMapping("/classrooms/{id}")
+    public ResponseEntity<List<TableDTO>> getTablesByClassroom(@PathVariable Integer id)
+    {
+        log.info("GET /api/v1/timetables/classrooms/{id} - Retourne la liste des emplois du temps par salle de classe");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                        tableService.findTableByClassroom(id)
+                );
+    }
 }

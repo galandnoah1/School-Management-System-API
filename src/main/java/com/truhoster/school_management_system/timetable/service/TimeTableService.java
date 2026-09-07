@@ -97,4 +97,28 @@ public class TimeTableService {
                 .map(timeTableMapper::toTableDTO)
                 .toList();
     }
+
+    /**
+     * Retourne la liste des emplois du temps par salle de classe
+     * */
+    @Transactional
+    public List<TableDTO> findTableByClassroom(Integer classroomId)
+    {
+        return tableRepo.findByClassroomId(classroomId)
+                .stream()
+                .map(timeTableMapper::toTableDTO)
+                .toList();
+    }
+
+    /**
+     * Retourne la fiche de programme par enseignant
+     * */
+    @Transactional
+    public List<LineDTO> findLineByTeacher(Integer teacherId)
+    {
+        return lineRepo.findByTeacherId(teacherId)
+                .stream()
+                .map(timeTableMapper::toLineDTO)
+                .toList();
+    }
 }

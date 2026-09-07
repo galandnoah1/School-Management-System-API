@@ -1,6 +1,7 @@
 package com.truhoster.school_management_system.teacher.entity;
 
 import com.truhoster.school_management_system.teacher.enums.Sex;
+import com.truhoster.school_management_system.timetable.entity.TimeTableLine;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,9 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Affectation> affectations;
+
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    private List<TimeTableLine> timeTableLines;
 
     @CreationTimestamp
     @Column(updatable = false)

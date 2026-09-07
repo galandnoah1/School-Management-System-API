@@ -3,6 +3,7 @@ package com.truhoster.school_management_system.classroom.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.truhoster.school_management_system.classroom.enums.*;
 import com.truhoster.school_management_system.student.entity.Student;
+import com.truhoster.school_management_system.timetable.entity.TimeTable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,6 +46,10 @@ public class Classroom {
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Student> studentList;
+
+
+    @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
+    private List<TimeTable> timeTables;
 
     @CreationTimestamp
     @Column(updatable = false)
